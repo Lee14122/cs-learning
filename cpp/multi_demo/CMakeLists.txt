@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(multi_demo)
+project(./cs-learning/cpp/multi_demo)
 
 set(CMAKE_BUILD_TYPE Debug)
 
@@ -11,5 +11,4 @@ target_include_directories(core_lib PUBLIC include)
 target_include_directories(core_lib PRIVATE src)
 
 add_executable(app src/main.cpp)
-
 target_link_libraries(app PRIVATE core_lib)

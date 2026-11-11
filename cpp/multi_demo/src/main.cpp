@@ -1,44 +1,38 @@
 #include <iostream>
 #include <vector>
+#include <set>
 #include <algorithm>
 using namespace std;
 
 // ================= 你的原始代码，一字未改 =================
 class Solution {
 public:
-    void moveZeroes(vector<int>& nums) {
-        int ptz = 0;
-        int ptn = 0;
-
-        while (ptz < nums.size()-1 && ptn < nums.size()-1) {
-            while (ptz < nums.size()-1 && nums[ptz] != 0) {
-                ptz++;
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        set<vector<int>> set_ans;
+        vector<vector<int>> ans;
+        sort(nums.begin(),nums.end());
+        for (int i = 0; i < nums.size(); i++) {
+            if (i>0 && nums[i] == nums[i-1]) {
+                continue;
             }
-            while (ptn < nums.size() &&nums[ptn] == 0 ) {
-                ptn++;
-            }
-            //if(ptz < nums.size()-1 && ptn < nums.size()&&ptz<ptn)
-            if(ptz < nums.size()-1 && ptn < nums.size()){
-                nums[ptz] = nums[ptn];
-                nums[ptn] = 0;
-            }
-            // else if(ptz < nums.size()-1 && ptn < nums.size()&&ptz>ptn){
-            //     ptn++;
-            // }
-        }
-    }
-    int maxArea(vector<int>& height) {
-        int ans = 0;
-        for (int i = 0; i < height.size(); i++) {
-            for (int j = i; j < height.size(); j++) {
-                int tp = min(height[i], height[j]);
-                tp = tp * (j - i);
-                ans = max(tp, ans);
+            int j = i+1;
+            int k = nums.size()-1;
+            while(j<k){
+                if(nums[i]+nums[j]+nums[k]<0){
+                    j++;
+                }
+                else if(nums[i]+nums[j]+nums[k]>0){
+                    k++;
+                }
+                else if(nums[i]+nums[j]+nums[k]==0){
+                    ans.push_back({nums[i],nums[j],nums[k]});
+                }
             }
         }
         return ans;
     }
-};
+}
+;
 // =========================================================
 
 void print(const vector<int>& v) {
@@ -53,25 +47,19 @@ void print(const vector<int>& v) {
 void run(vector<int> nums) {
     cout << "input : ";
     print(nums);
-    Solution().moveZeroes(nums);
+    vector<vector<int>> ans = Solution().threeSum(nums);
     cout << "output: ";
-    print(nums);
+    for(auto& p : ans){
+        print(p);
+    }
     cout << "------------------------\n";
 }
 
 int main() {
     // 正常用例
-    run({0, 1, 0, 3, 12});
+    run({-1,0,1,2,-1,-4}); 
     // 没有 0，最容易触发越界
-    run({1, 2, 3});
-    // 全是 0
-    run({0, 0, 0});
+    run({0, 0, 0, 0});
     // 触发顺序错乱
-    run({1, 0, 2});
-    // 0 在末尾
-    run({1, 2, 0});
-    // 单个元素
-    run({0});
-    run({1});
     return 0;
 }
